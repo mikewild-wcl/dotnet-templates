@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Mike Wild",
+  "classifications": [
+    ".NET Aspire",
+    "Cloud"
+  ],
+  "identity": "AspireEmptyStarter.Template",
+  "name": "Aspire Empty Starter",
+  "shortName": "aspire-emptystarter",
+  "description": "A starter template for and empty Aspireproject.",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "AspireEmptyStarter",
+  "preferNameDirectory": true
+}
