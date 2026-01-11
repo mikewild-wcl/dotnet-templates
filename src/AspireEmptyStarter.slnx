@@ -5,6 +5,6 @@
     <File Path="../Directory.Packages.props" />
     <File Path="../README.md" />
   </Folder>
-  <Project Path="Aspire.EmptyStarter.AppHost/Aspire.EmptyStarter.AppHost.csproj" />
-  <Project Path="Aspire.EmptyStarter.ServiceDefaults/Aspire.EmptyStarter.ServiceDefaults.csproj" />
+  <Project Path="AspireEmptyStarter.AppHost/AspireEmptyStarter.AppHost.csproj" />
+  <Project Path="AspireEmptyStarter.ServiceDefaults/AspireEmptyStarter.ServiceDefaults.csproj" />
 </Solution>
