@@ -3,16 +3,163 @@
   "author": "Mike Wild",
   "classifications": [
     ".NET Aspire",
-    "Cloud"
+    "Empty"
   ],
   "identity": "AspireEmptyStarter.Template",
   "name": "Aspire Empty Starter",
-  "shortName": "aspire-emptystarter",
-  "description": "A starter template for and empty Aspireproject.",
+  "shortName": "aspire-empty-starter",
+  "description": "A starter template for and empty Aspire project.",
   "tags": {
     "language": "C#",
     "type": "project"
   },
   "sourceName": "AspireEmptyStarter",
-  "preferNameDirectory": true
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "exclude": [
+        ".template.config/**/*",
+        ".git/**/*",
+        ".gitattributes",
+        "LICENSE",
+        "docs/**/*",
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        "**/*.filelist",
+        "**/*.user",
+        "**/*.lock.json",
+        "**/*.suo",
+        "**/.vs/**"
+      ]
+    }
+  ],
+  "guids": [
+    "708424d8-3d21-4e22-aa9b-00c0abf5fb4b" // AppHost UserSecretsId
+  ],
+  "symbols": {
+    "AspireHttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the Aspire HTTPs endpoint in launchSettings.json."
+    },
+    "AspireHttpPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 19100,
+        "high": 20199
+      }
+    },
+    "HttpPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the HTTP endpoint in launchSettings.json."
+    },
+    "HttpPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 15100,
+        "high": 15199
+      }
+    },
+    "HttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the HTTPS endpoint in launchSettings.json."
+    },
+    "HttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 15100,
+        "high": 15199
+      }
+    },
+    "HttpPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "HttpPort",
+        "fallbackVariableName": "HttpPortGenerated"
+      },
+      "replaces": "15037"
+    },
+    "HttpsPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "HttpsPort",
+        "fallbackVariableName": "HttpsPortGenerated"
+      },
+      "replaces": "17232"
+    }
+    //TODO: Replace http port 15037   (fix above first)
+    //TODO: Replace https ports 17232
+    ////TODO: Replace Aspire endpoint ports - might need one for each
+    //"ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21066",
+    //"ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "https://localhost:23037",
+    //"ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22141"
+    //"ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19278",
+    //"ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "http://localhost:18023",
+    //"ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20107"
+
+    //TODO: regex to replace the . with _ in https://<this>.dev.localhost - need a regex
+    // for that?try (?<=https://)[^.]+(\.)(?=[^.]*\.dev\.localhost)
+    // https://github.com/dotnet/templating/wiki/Value-Forms#available-transforms
+    //"forms": {
+    //  "dotToUnderscore": {
+    //    "identifier": "replace",
+    //    "pattern": "\\.", // A regular expression matching the characters to replace
+    //    "replacement": "_" // The replacement for the matched characters
+    //  }
+    //}
+    //https://github.com/dotnet/templating/discussions/5085 -> https://github.com/dotnet/templating/pull/5116/files
+    //"symbols": {
+    //  "nameUpper": {
+    //    "description": "replaces content matching 'MYWEBAPP' to the uppercased '{sourceName}', e.g. sourceName 'Foo.Bar' becomes 'FOO.BAR'",
+    //    "type": "generated",
+    //    "generator": "casing",
+    //    "replaces": "MYWEBAPP",
+    //    "parameters": {
+    //      "source": "name",
+    //      "toLower": false
+    //    }
+    //  },
+    //  "nameUpperSnake": {
+    //    "description": "replaces content matching 'MY_WEB_APP' to the uppercased and underscored '{sourceName}', e.g. sourceName 'Foo.Bar.Baz' becomes 'FOO_BAR_BAZ'",
+    //    "type": "generated",
+    //    "generator": "regex",
+    //    "replaces": "MY_WEB_APP",
+    //    "parameters": {
+    //      "source": "nameUpper",
+    //      "steps": [
+    //        {
+    //          "regex": "\\.",
+    //          "replacement": "_"
+    //        }
+    //      ]
+    //    }
+    //  }
+    //}
+
+
+    //"iisHttpsPortGenerated": {
+    //  "type": "generated",
+    //  "generator": "port",
+    //  "parameters": {
+    //    "low": 44300,
+    //    "high": 44399
+    //  }
+    //}
+    //"iisHttpsPortReplacer": {
+    //  "type": "generated",
+    //  "generator": "coalesce",
+    //  "parameters": {
+    //    "sourceVariableName": "iisHttpsPort",
+    //    "fallbackVariableName": "iisHttpsPortGenerated"
+    //  },
+    //  "replaces": "44300"
+    //}
+  }
 }
