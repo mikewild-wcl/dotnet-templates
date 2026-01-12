@@ -10,9 +10,9 @@ This is a .NET Aspire project.
 
 The solution consists of two projects:
 
-- **AspireEmptyStarter.AppHost**: The Aspire orchestrator project that coordinates all services. Uses the latest `Aspire.AppHost.Sdk` SDK. Entry point is `AppHost.cs` which creates a minimal `DistributedApplication` with no resources configured by default.
+- **Aspire.EmptyStarter.AppHost**: The Aspire orchestrator project that coordinates all services. Uses the latest `Aspire.AppHost.Sdk` SDK. Entry point is `AppHost.cs` which creates a minimal `DistributedApplication` with no resources configured by default.
 
-- **AspireEmptyStarter.ServiceDefaults**: A shared library project that provides common Aspire service configuration (OpenTelemetry, service discovery, resilience, health checks). This project should be referenced by all service projects in an Aspire application. The main extension methods are in `Extensions.cs`.
+- **Aspire.EmptyStarter.ServiceDefaults**: A shared library project that provides common Aspire service configuration (OpenTelemetry, service discovery, resilience, health checks). This project should be referenced by all service projects in an Aspire application. The main extension methods are in `Extensions.cs`.
 
 ### Key Architectural Patterns
 
@@ -28,15 +28,15 @@ The solution consists of two projects:
 
 Build the solution:
 ```
-dotnet build src/AspireEmptyStarter.slnx
+dotnet build src/Aspire.EmptyStarter.slnx
 ```
 
 Run the AppHost (starts the Aspire dashboard and orchestrates resources):
 ```
-dotnet run --project src/AspireEmptyStarter.AppHost
+dotnet run --project src/Aspire.EmptyStarter.AppHost
 ```
 
-The AppHost will launch the Aspire Dashboard at the URLs configured in `launchSettings.json` (default: https://aspireemptystarter.dev.localhost:17232).
+The AppHost will launch the Aspire Dashboard at the URLs configured in `launchSettings.json` (default: https://aspire_emptystarter.dev.localhost:17232).
 
 ## Service Defaults Configuration
 
