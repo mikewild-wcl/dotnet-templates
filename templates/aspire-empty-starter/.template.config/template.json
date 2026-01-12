@@ -5,13 +5,13 @@
     ".NET Aspire",
     "Empty"
   ],
-  "identity": "AspireEmptyStarter.Template",
+  "identity": "Aspire.EmptyStarter.Template.1.0", //Version can be updated when the template changes
   "name": "Aspire Empty Starter",
   "shortName": "aspire-empty-starter",
   "description": "A starter template for and empty Aspire project.",
   "tags": {
     "language": "C#",
-    "type": "project"
+    "type": "solution"
   },
   "sourceName": "AspireEmptyStarter",
   "preferNameDirectory": true,

@@ -5,7 +5,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://aspireemptystarter.dev.localhost:17232;http://aspireemptystarter.dev.localhost:15037",
+      "applicationUrl": "https://aspire_emptystarter.dev.localhost:17232;http://aspire_emptystarter.dev.localhost:15037",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
@@ -18,7 +18,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://aspireemptystarter.dev.localhost:15037",
+      "applicationUrl": "http://aspire_emptystarter.dev.localhost:15037",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
