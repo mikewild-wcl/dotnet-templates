@@ -10,9 +10,14 @@ The template has been configured to replace the user secrets guid in the AppHost
 
 ## Installing the template
 
-Install the template by running this command in the repo root:
+Install the template by running this command in the template root - `cd C:\dev\dotnet-templates\templates\aspire-empty-starter` (the path on your machine might differ, and remember to change the template name if you're using a different template:
 ```
 dotnet new install ./
+```
+
+You can also do this using the full path:
+```
+dotnet new install C:\dev\dotnet-templates\templates\aspire-empty-starter
 ```
 
 If the template already exists, you need to add --force to reinstall:
@@ -25,10 +30,20 @@ You can list available templates with
 dotnet new list aspire
 ```
 
+To uninstall the template, run 
+If the template already exists, you need to add --force to reinstall:
+```
+dotnet new uninstall aspire-empty-starter
+```
+This might need the full path to the folder if you aren't inside it.
+```
+dotnet new uninstall C:\dev\dotnet-templates\templates\aspire-empty-starter
+```
+
 ## Using the template
 
 > [!NOTE]
-> This won't work if the original project is open in Visual Studio. Close Visual Studio first.
+> This might not work if the original template project is open in Visual Studio. Close Visual Studio first if you have any problems. If you re-run the template it might have erros when replacing files; if that happens add `--force`.
 
 Create a new project by running the following command:
 ```

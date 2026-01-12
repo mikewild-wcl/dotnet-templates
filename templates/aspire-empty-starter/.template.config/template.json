@@ -5,7 +5,7 @@
     ".NET Aspire",
     "Empty"
   ],
-  "identity": "Aspire.EmptyStarter.Template.1.0", //Version can be updated when the template changes
+  "identity": "Aspire.EmptyStarter.Template",
   "name": "Aspire Empty Starter",
   "shortName": "aspire-empty-starter",
   "description": "A starter template for and empty Aspire project.",
@@ -13,22 +13,17 @@
     "language": "C#",
     "type": "solution"
   },
-  "sourceName": "AspireEmptyStarter",
+  "sourceName": "Aspire.EmptyStarter",
   "preferNameDirectory": true,
   "sources": [
     {
       "exclude": [
         ".template.config/**/*",
-        ".git/**/*",
-        ".gitattributes",
-        "LICENSE",
-        "docs/**/*",
         "**/[Bb]in/**",
         "**/[Oo]bj/**",
         "**/*.filelist",
         "**/*.user",
         "**/*.lock.json",
-        "**/*.suo",
         "**/.vs/**"
       ]
     }
@@ -37,129 +32,181 @@
     "708424d8-3d21-4e22-aa9b-00c0abf5fb4b" // AppHost UserSecretsId
   ],
   "symbols": {
-    "AspireHttpsPort": {
+    "appHostHttpPort": {
       "type": "parameter",
       "datatype": "integer",
-      "description": "Port number to use for the Aspire HTTPs endpoint in launchSettings.json."
+      "description": "Port number to use for the HTTP endpoint in launchSettings.json of the AppHost project."
     },
-    "AspireHttpPortGenerated": {
+    "appHostHttpPortGenerated": {
       "type": "generated",
       "generator": "port",
       "parameters": {
-        "low": 19100,
-        "high": 20199
+        "low": 15000,
+        "high": 15300
       }
     },
-    "HttpPort": {
-      "type": "parameter",
-      "datatype": "integer",
-      "description": "Port number to use for the HTTP endpoint in launchSettings.json."
-    },
-    "HttpPortGenerated": {
-      "type": "generated",
-      "generator": "port",
-      "parameters": {
-        "low": 15100,
-        "high": 15199
-      }
-    },
-    "HttpsPort": {
-      "type": "parameter",
-      "datatype": "integer",
-      "description": "Port number to use for the HTTPS endpoint in launchSettings.json."
-    },
-    "HttpsPortGenerated": {
-      "type": "generated",
-      "generator": "port",
-      "parameters": {
-        "low": 15100,
-        "high": 15199
-      }
-    },
-    "HttpPortReplacer": {
+    "appHostHttpPortReplacer": {
       "type": "generated",
       "generator": "coalesce",
       "parameters": {
-        "sourceVariableName": "HttpPort",
-        "fallbackVariableName": "HttpPortGenerated"
+        "sourceVariableName": "appHostHttpPort",
+        "fallbackVariableName": "appHostHttpPortGenerated"
       },
-      "replaces": "15037"
+      "replaces": "15000"
     },
-    "HttpsPortReplacer": {
+    "appHostOtlpHttpPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the OTLP HTTP endpoint in launchSettings.json of the AppHost project."
+    },
+    "appHostOtlpHttpPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 19000,
+        "high": 19300
+      }
+    },
+    "appHostOtlpHttpPortReplacer": {
       "type": "generated",
       "generator": "coalesce",
       "parameters": {
-        "sourceVariableName": "HttpsPort",
-        "fallbackVariableName": "HttpsPortGenerated"
+        "sourceVariableName": "appHostOtlpHttpPort",
+        "fallbackVariableName": "appHostOtlpHttpPortGenerated"
       },
-      "replaces": "17232"
+      "replaces": "19000"
+    },
+    "appHostMcpHttpPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the MCP HTTP endpoint in launchSettings.json of the AppHost project."
+    },
+    "appHostMcpHttpPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 18000,
+        "high": 18300
+      }
+    },
+    "appHostMcpHttpPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "appHostMcpHttpPort",
+        "fallbackVariableName": "appHostMcpHttpPortGenerated"
+      },
+      "replaces": "18000"
+    },
+    "appHostResourceHttpPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the resource service HTTP endpoint in launchSettings.json of the AppHost project."
+    },
+    "appHostResourceHttpPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 20000,
+        "high": 20300
+      }
+    },
+    "appHostResourceHttpPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "appHostResourceHttpPort",
+        "fallbackVariableName": "appHostResourceHttpPortGenerated"
+      },
+      "replaces": "20000"
+    },
+    "appHostHttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the HTTPS endpoint in launchSettings.json of the AppHost project. This option is only applicable when the parameter no-https is not used."
+    },
+    "appHostHttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 17000,
+        "high": 17300
+      }
+    },
+    "appHostHttpsPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "appHostHttpsPort",
+        "fallbackVariableName": "appHostHttpsPortGenerated"
+      },
+      "replaces": "17000"
+    },
+    "appHostOtlpHttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the OTLP HTTPS endpoint in launchSettings.json of the AppHost project."
+    },
+    "appHostOtlpHttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 21000,
+        "high": 21300
+      }
+    },
+    "appHostOtlpHttpsPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "appHostOtlpHttpsPort",
+        "fallbackVariableName": "appHostOtlpHttpsPortGenerated"
+      },
+      "replaces": "21000"
+    },
+    "appHostMcpHttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the MCP HTTPS endpoint in launchSettings.json of the AppHost project."
+    },
+    "appHostMcpHttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 23000,
+        "high": 23300
+      }
+    },
+    "appHostMcpHttpsPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "appHostMcpHttpsPort",
+        "fallbackVariableName": "appHostMcpHttpsPortGenerated"
+      },
+      "replaces": "23000"
+    },
+    "appHostResourceHttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the resource service HTTPS endpoint in launchSettings.json of the AppHost project."
+    },
+    "appHostResourceHttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 22000,
+        "high": 22300
+      }
+    },
+    "appHostResourceHttpsPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "appHostResourceHttpsPort",
+        "fallbackVariableName": "appHostResourceHttpsPortGenerated"
+      },
+      "replaces": "22000"
     }
-    //TODO: Replace http port 15037   (fix above first)
-    //TODO: Replace https ports 17232
-    ////TODO: Replace Aspire endpoint ports - might need one for each
-    //"ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21066",
-    //"ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "https://localhost:23037",
-    //"ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22141"
-    //"ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19278",
-    //"ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "http://localhost:18023",
-    //"ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20107"
-
-    //TODO: regex to replace the . with _ in https://<this>.dev.localhost - need a regex
-    // for that?try (?<=https://)[^.]+(\.)(?=[^.]*\.dev\.localhost)
-    // https://github.com/dotnet/templating/wiki/Value-Forms#available-transforms
-    //"forms": {
-    //  "dotToUnderscore": {
-    //    "identifier": "replace",
-    //    "pattern": "\\.", // A regular expression matching the characters to replace
-    //    "replacement": "_" // The replacement for the matched characters
-    //  }
-    //}
-    //https://github.com/dotnet/templating/discussions/5085 -> https://github.com/dotnet/templating/pull/5116/files
-    //"symbols": {
-    //  "nameUpper": {
-    //    "description": "replaces content matching 'MYWEBAPP' to the uppercased '{sourceName}', e.g. sourceName 'Foo.Bar' becomes 'FOO.BAR'",
-    //    "type": "generated",
-    //    "generator": "casing",
-    //    "replaces": "MYWEBAPP",
-    //    "parameters": {
-    //      "source": "name",
-    //      "toLower": false
-    //    }
-    //  },
-    //  "nameUpperSnake": {
-    //    "description": "replaces content matching 'MY_WEB_APP' to the uppercased and underscored '{sourceName}', e.g. sourceName 'Foo.Bar.Baz' becomes 'FOO_BAR_BAZ'",
-    //    "type": "generated",
-    //    "generator": "regex",
-    //    "replaces": "MY_WEB_APP",
-    //    "parameters": {
-    //      "source": "nameUpper",
-    //      "steps": [
-    //        {
-    //          "regex": "\\.",
-    //          "replacement": "_"
-    //        }
-    //      ]
-    //    }
-    //  }
-    //}
-
-
-    //"iisHttpsPortGenerated": {
-    //  "type": "generated",
-    //  "generator": "port",
-    //  "parameters": {
-    //    "low": 44300,
-    //    "high": 44399
-    //  }
-    //}
-    //"iisHttpsPortReplacer": {
-    //  "type": "generated",
-    //  "generator": "coalesce",
-    //  "parameters": {
-    //    "sourceVariableName": "iisHttpsPort",
-    //    "fallbackVariableName": "iisHttpsPortGenerated"
-    //  },
-    //  "replaces": "44300"
-    //}
   }
 }

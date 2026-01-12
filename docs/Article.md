@@ -117,7 +117,15 @@ A bit of searching made this look trivial - just add a template configuration fi
 
 [Automation!](https://xkcd.com/1319/)
 
-There are a few problems. There are ports in `launchSettings.json` that need to be replaced, and if you selected the option to use the dev.localhost TLD when creating the soltion then the launch uris might be wrong because they have '.' where there should be '_'. These are all fixable but it takes some work. Fortunately more searching got me most of the way there, and the Aspire repo got me the rest - the original [Aspire templates](src/Aspire.ProjectTemplates/templates) are there for reference.
+There are a few problems. There are ports in `launchSettings.json` that need to be replaced, and if you selected the option to use the dev.localhost TLD when creating the soltion then the launch uris might be wrong because they have '.' where there should be '_'. That causes certificate errors at runtime because the dev https certificate doesn't trust the uri with dots in it. There are also a few files that need to be excluded. For example the bin and obj folders also need to be excluded, if the `.vs` folder is copied any files open in the template are displayed when the new project is opened.
+
+These are all fixable but it takes some work. Fortunately more searching got me most of the way there, and the Aspire repo got me the rest - the original [Aspire templates](src/Aspire.ProjectTemplates/templates) are there for reference.
+
+The problem with the uris for TLD went away when I renamed the project so it had an underscore in `launchSettings.json` so there was no need to fix it. That was a relief because it looked like it needed some regex magic.
+
+** Ports ** - since I copied the port replacements from the Aspire project, I changed `launchSettings.json` to match. 
+
+
 
 ----------------------------
 
@@ -163,7 +171,7 @@ This will create a new folder `My.Awesome.Project` with the aspire project struc
  - [](https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template)
  - [Reference for template.json](https://github.com/dotnet/templating/wiki/Reference-for-template.json)
 
- ### Templating notes
+ ### Templating notes and links
 
  https://github.com/dotnet/templating/wiki/Reference-for-template.json
  Ports - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#port
