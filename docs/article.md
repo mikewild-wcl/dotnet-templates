@@ -166,6 +166,19 @@ The -o parameter is optional - if you don't use it then the project will be crea
 
 This will create a new folder `My.Awesome.Project` with the aspire project structure.
 
+## Future improvements
+
+The Aspire templates use “magic strings” to name projects and resources so you need to make sure you keep the names consistent across projects. If you want to avoid this, and as a best practice, 
+
+See [Removing Magic Strings from Your .NET Aspire Project] on Michael S. Collier's Blog, which also references a [video](https://www.youtube.com/watch?v=Jt39GzYCRgo) by [Jeff Fritz](https://www.youtube.com/@csharpfritz) on the topic. https. I often ignore this for smaller projects or proofs of concepts, but will do it for larger projects.
+-	Add a new class library. I like to name it with a `.Shared` extension, or possibly `.Configuration` since I might want to add a shared configuration class as well.
+-	Add the project as a project reference in the AppHost and other projects that need have the magic strings
+-	In the AppHost project csproj file, add this attribute to the shared project – IsAspireProjectResource="false"
+  <ItemGroup>
+    <ProjectReference Include="..\Aspire.My.Awesome.Project.Shared\Aspire.My.Awesome.Project.Shared.csproj" IsAspireProjectResource="false" />
+  </ItemGroup>
+-	Add constants to the shared project, such as Services.MyService and replace the magic strings in the AppHost code.
+
 ## References
 
  - [](https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template)
@@ -184,4 +197,4 @@ This will create a new folder `My.Awesome.Project` with the aspire project struc
 --------------------
 
 [!NOTE] 
-> The source for this article is available on [GitHub](https://github.com/mikewild-wcl/dotnet-templates)
+> Source code is available on [GitHub](https://github.com/mikewild-wcl/dotnet-templates)
