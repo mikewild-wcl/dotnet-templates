@@ -81,8 +81,6 @@ You'll then need to remove the version numbers from nuget packages in the Servic
 <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
 ```
 
-I also add a default `.editorconfig` file to the root folder. 
-
 I also add `.editorconfig`, `Directory.Build.props`, `Directory.Packages.props` and `README.md`  to the solution items to make them easy to open later, and I might prepare the solution for gen ai tools with `CLAUDE.md` and/or `./github/copilot-instructions` files.
 
 In `AppHost.cs` change the Run statement at the end to `await builder.Build().RunAsync();` - this might show a build warning so add this to .editorconfig to suppress it:
