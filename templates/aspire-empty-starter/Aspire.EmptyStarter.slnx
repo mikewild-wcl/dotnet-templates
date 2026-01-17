@@ -1,9 +1,9 @@
 <Solution>
   <Folder Name="/Solution Items/">
-    <File Path="../.editorconfig" />
-    <File Path="../Directory.Build.props" />
-    <File Path="../Directory.Packages.props" />
-    <File Path="../README.md" />
+    <File Path="./Directory.Build.props" />
+    <File Path="./Directory.Packages.props" />
+    <File Path="./README.md" />
+    <File Path=".editorconfig" />
   </Folder>
   <Project Path="src/Aspire.EmptyStarter.AppHost/Aspire.EmptyStarter.AppHost.csproj" />
   <Project Path="src/Aspire.EmptyStarter.ServiceDefaults/Aspire.EmptyStarter.ServiceDefaults.csproj" />
