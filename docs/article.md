@@ -124,6 +124,35 @@ The problem with the uris for TLD went away when I renamed the project so it had
 ** Ports ** - since I copied the port replacements from the Aspire project, I changed `launchSettings.json` to match. 
 
 
+----------------------------
+
+## Adding a Shared project, sometimes
+
+The standard Aspire templates use “magic strings” to name projects and resources. I often ignore this for smaller projects or proofs of concepts, but will for larger projects I will add a shared project with constants. The details on how this works can be found in [Removing Magic Strings from Your .NET Aspire Project](Removing Magic Strings from Your .NET Aspire Projec) - Michael S. Collier's Blog, which also mentions a video [.NET Aspire - Project Names and Constants](https://youtu.be/Jt39GzYCRgo?si=31l51xklkOjKP_Ns). 
+-	Add a new class library. I like to name it <my-project>.Shared
+-	Add the project as a project reference in the AppHost and other projects that need have the magic strings
+-	In the AppHost project csproj file, add this attribute to the shared project – IsAspireProjectResource="false"
+  <ItemGroup>
+    <ProjectReference Include="..\Aspire.Default.Shared\Aspire.Default.Shared.csproj" IsAspireProjectResource="false" />
+  </ItemGroup>
+- If you're using strict static cheecks, the name "Shared" will cause a build error (Visual Studio helpfully hides this in the Build output instead of in the Error List) but it can easily be ignored by adding the following to the `<my-project>.Shared.csproj`:
+```
+<PropertyGroup>
+  <!-- Suppress CA1716: Rename namespace so that it no longer conflicts with the reserved language keyword 'Shared' -->
+  <NoWarn>CA1716</NoWarn>
+</PropertyGroup>
+```
+- The PropertyGroup in that file can be removed because everything will come from the directory build props.
+-	For this initial project I have added Resources and Parameters classes with sample constants.
+
+I've also included this in the AppHost.csproj as a hint to how you can use a shorter name for projects:
+```
+<!-- 
+  Tip: Use AspireProjectMetadataTypeName with new projects and use the short name in AppHost.cs:
+    builder.AddProject<SampleApi>(ResourceNames.SampleApi)
+-->
+<!--<ProjectReference Include="..\Aspire.EmptyStarter.SampleApi\Aspire.EmptyStarter.SampleApi.csproj" AspireProjectMetadataTypeName="SampleApi" />-->
+```
 
 ----------------------------
 

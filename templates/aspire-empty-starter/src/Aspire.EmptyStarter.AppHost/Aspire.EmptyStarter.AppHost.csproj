@@ -1,8 +1,17 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+﻿<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <UserSecretsId>708424d8-3d21-4e22-aa9b-00c0abf5fb4b</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 
+      Tip: Use AspireProjectMetadataTypeName with new projects and use the short name in AppHost.cs:
+        builder.AddProject<SampleApi>(ResourceNames.SampleApi)
+    -->
+    <!--<ProjectReference Include="..\Aspire.EmptyStarter.SampleApi\Aspire.EmptyStarter.SampleApi.csproj" AspireProjectMetadataTypeName="SampleApi" />-->
+    <ProjectReference Include="..\..\Aspire.EmptyStarter.Shared\Aspire.EmptyStarter.Shared.csproj" IsAspireProjectResource="false" />
+  </ItemGroup>
 
 </Project>
