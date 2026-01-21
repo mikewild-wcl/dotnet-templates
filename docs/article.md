@@ -92,18 +92,20 @@ dotnet_diagnostic.CA2007.severity = none # Do not warn about missing ConfigureAw
 
 There will also be some warnings in in `ServiceDefaults/Extensions.cs` about commented code and some suggested improvements. Some of these may disappear in future versions of the Aspire templates, and you're free to make any changes you like as you develop your applications. But to start with I suppress them by adding a using statement for `System.Diagnostics.CodeAnalysiss`, wrapping a prgma around the namespace, and addind suppression attributes:
 ```
-using System.Diagnostics.CodeAnalysis;
-
-#pragma warning disable IDE0130
-namespace Microsoft.Extensions.Hosting;
-#pragma warning restore IDE0130
-
-[SuppressMessage("Minor Code Smell", "S125:Remove this commented out code", Justification = "Allowing comments in this class", Scope = "type", Target = "~T:Microsoft.Extensions.Hosting.Extensions")]
-[SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Allowed in this project for now", Scope = "member", Target = "~M:Microsoft.Extensions.Hosting.Extensions.MapDefaultEndpoints(Microsoft.AspNetCore.Builder.WebApplication)~Microsoft.AspNetCore.Builder.WebApplication")]
-[SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Allowed in this project for now", Scope = "member", Target = "~M:Microsoft.Extensions.Hosting.Extensions.ConfigureOpenTelemetry``1(``0)~``0")]
-[SuppressMessage("Style", "CA1724: The type name Extensions conflicts in whole or in part with the namespace name 'Microsoft.AspNetCore.Builder.Extensions'", Justification = "This is extending the target namespace and is not an error", Scope = "type", Target = "~T:Microsoft.Extensions.Hosting.Extensions")]
-public static class Extensions
+[**/*ServiceDefaults/**.cs] 
+dotnet_style_namespace_match_folder = false:silent # IDE0130
+dotnet_diagnostic.CA1062.severity = none # CA1062:Validate arguments of public methods
+dotnet_diagnostic.CA1307.severity = none # CA1307:Specify StringComparison for clarity
+dotnet_diagnostic.S125.severity = silent # S125:Remove this commented out code
 ```
+
+It's worth adding a couple of other suppressions for future us, including this for unit test names:
+```
+# Unit test project rules
+[**/*Tests/**.cs]
+dotnet_diagnostic.CA1707.severity = none # Allow underscores in test names
+```
+
 
 At this point you should be able to build and run the solution, and see a running application host with no resources. Done! You can go ahead with adding projects and building an awesome application. 
 
