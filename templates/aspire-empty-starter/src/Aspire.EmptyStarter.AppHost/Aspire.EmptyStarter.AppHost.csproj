@@ -6,12 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- 
+    <!--
       Tip: Use AspireProjectMetadataTypeName with new projects and use the short name in AppHost.cs:
         builder.AddProject<SampleApi>(ResourceNames.SampleApi)
     -->
     <!--<ProjectReference Include="..\Aspire.EmptyStarter.SampleApi\Aspire.EmptyStarter.SampleApi.csproj" AspireProjectMetadataTypeName="SampleApi" />-->
-    <ProjectReference Include="..\..\Aspire.EmptyStarter.Shared\Aspire.EmptyStarter.Shared.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\Aspire.EmptyStarter.Shared\Aspire.EmptyStarter.Shared.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
 </Project>

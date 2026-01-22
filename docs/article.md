@@ -83,7 +83,7 @@ You'll then need to remove the version numbers from nuget packages in the Servic
 
 I also add `.editorconfig`, `Directory.Build.props`, `Directory.Packages.props` and `README.md`  to the solution items to make them easy to open later, and I might prepare the solution for gen ai tools with `CLAUDE.md` and/or `./github/copilot-instructions` files.
 
-In `AppHost.cs` change the Run statement at the end to `await builder.Build().RunAsync();` - this might show a build warning so add this to .editorconfig to suppress it:
+In `AppHost.cs` change the Run statement at the end to `await builder.Build().RunAsync();` - this might show a build warning so add this to `.editorconfig` to suppress it:
 ```
 # Suppressions
 [*.cs]
@@ -96,6 +96,7 @@ There will also be some warnings in in `ServiceDefaults/Extensions.cs` about com
 dotnet_style_namespace_match_folder = false:silent # IDE0130
 dotnet_diagnostic.CA1062.severity = none # CA1062:Validate arguments of public methods
 dotnet_diagnostic.CA1307.severity = none # CA1307:Specify StringComparison for clarity
+dotnet_diagnostic.CA1724.severity = none # CA1724: Type name Extensions conflicts with namespace 'Microsoft.AspNetCore.Builder.Extensions'
 dotnet_diagnostic.S125.severity = silent # S125:Remove this commented out code
 ```
 
@@ -134,17 +135,20 @@ The standard Aspire templates use “magic strings” to name projects and resou
 -	Add a new class library. I like to name it <my-project>.Shared
 -	Add the project as a project reference in the AppHost and other projects that need have the magic strings
 -	In the AppHost project csproj file, add this attribute to the shared project – IsAspireProjectResource="false"
+```
   <ItemGroup>
     <ProjectReference Include="..\Aspire.Default.Shared\Aspire.Default.Shared.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
-- If you're using strict static cheecks, the name "Shared" will cause a build error (Visual Studio helpfully hides this in the Build output instead of in the Error List) but it can easily be ignored by adding the following to the `<my-project>.Shared.csproj`:
 ```
-<PropertyGroup>
-  <!-- Suppress CA1716: Rename namespace so that it no longer conflicts with the reserved language keyword 'Shared' -->
-  <NoWarn>CA1716</NoWarn>
-</PropertyGroup>
+
+- If you're using strict static checks, the name "Shared" will cause a build error (Visual Studio helpfully hides this in the Build output instead of in the Error List) but it can easily be ignored by adding the following to `.editorconfig` to suppress it:
 ```
-- The PropertyGroup in that file can be removed because everything will come from the directory build props.
+[**/*Shared/**.cs]
+# CA1716: Identifiers should not match keywords. Allow in NameSpace to fix conflict with reserved language keyword 'Shared'
+dotnet_code_quality.CA1716.analyzed_symbol_kinds = NamedType, Method, Property, Event, Parameter
+```
+
+- - The PropertyGroup in that file can be removed because everything will come from the directory build props.
 -	For this initial project I have added Resources and Parameters classes with sample constants.
 
 I've also included this in the AppHost.csproj as a hint to how you can use a shorter name for projects:
