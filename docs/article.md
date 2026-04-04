@@ -148,8 +148,8 @@ The standard Aspire templates use “magic strings” to name projects and resou
 dotnet_code_quality.CA1716.analyzed_symbol_kinds = NamedType, Method, Property, Event, Parameter
 ```
 
-- - The PropertyGroup in that file can be removed because everything will come from the directory build props.
--	For this initial project I have added Resources and Parameters classes with sample constants.
+- The PropertyGroup in that file can be removed because everything will come from the directory build props.
+- For this initial project I have added Resources and Parameters classes with sample constants.
 
 I've also included this in the AppHost.csproj as a hint to how you can use a shorter name for projects:
 ```
