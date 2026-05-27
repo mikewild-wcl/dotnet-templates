@@ -199,6 +199,11 @@ The -o parameter is optional - if you don't use it then the project will be crea
 
 This will create a new folder `My.Awesome.Project` with the aspire project structure.
 
+If you have already created an empty git repository you can clone it and navigate to the folder, then run the template using `-o .`
+```
+dotnet new aspire-empty-starter -n My.Awesome.Project -o . 
+```
+
 ## Future improvements
 
 The Aspire templates use “magic strings” to name projects and resources so you need to make sure you keep the names consistent across projects. If you want to avoid this, and as a best practice, 
@@ -217,14 +222,13 @@ See [Removing Magic Strings from Your .NET Aspire Project] on Michael S. Collier
  - [](https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template)
  - [Reference for template.json](https://github.com/dotnet/templating/wiki/Reference-for-template.json)
 
- ### Templating notes and links
+### Templating notes and links
 
- https://github.com/dotnet/templating/wiki/Reference-for-template.json
- Ports - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#port
- Regex - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#regex
-	
+https://github.com/dotnet/templating/wiki/Reference-for-template.json
+Ports - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#port
+Regex - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#regex
 
- https://github.com/sayedihashimi/template-sample/blob/main/src/Content/MyWebApp/.template.config/template.json
+https://github.com/sayedihashimi/template-sample/blob/main/src/Content/MyWebApp/.template.config/template.json
 
 
 --------------------

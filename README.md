@@ -59,11 +59,11 @@ This will create a new folder `My.Awesome.Project` with the aspire project struc
  - [](https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template)
  - [Reference for template.json](https://github.com/dotnet/templating/wiki/Reference-for-template.json)
 
- ### Templating notes
+### Templating notes
 
- https://github.com/dotnet/templating/wiki/Reference-for-template.json
- Ports - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#port
- Regex - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#regex
-	
+https://github.com/dotnet/templating/wiki/Reference-for-template.json
+Ports - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#port
+Regex - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#regex
 
- https://github.com/sayedihashimi/template-sample/blob/main/src/Content/MyWebApp/.template.config/template.json
+
+https://github.com/sayedihashimi/template-sample/blob/main/src/Content/MyWebApp/.template.config/template.json
