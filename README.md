@@ -8,6 +8,25 @@ The repo has a folder `.template.config` with a file `template.json` that descri
 
 The template has been configured to replace the user secrets guid in the AppHost project (see the `guids` section of the template.json file).
 
+There is an empty 'tests' folder in the templated project (with a `.gitkeep` file). This can be removed if no tests will be used in the solution.
+
+### Updating templated projects
+
+To update the aspire version in templates, go into the individual template folders and run aspire and package update tools. Starting in the repo root, go into the solution template folder:
+```
+cd templates\aspire-empty-starter
+```
+
+Then update Aspire:
+```
+aspire update
+```
+
+Update any remaining nuget packages 
+```
+dotnet outdated --upgrade
+```
+
 ## Installing the template
 
 Install the template by running this command in the template root - `cd C:\dev\dotnet-templates\templates\aspire-empty-starter` (the path on your machine might differ, and remember to change the template name if you're using a different template:

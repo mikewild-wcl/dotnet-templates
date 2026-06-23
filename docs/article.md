@@ -107,7 +107,6 @@ It's worth adding a couple of other suppressions for future us, including this f
 dotnet_diagnostic.CA1707.severity = none # Allow underscores in test names
 ```
 
-
 At this point you should be able to build and run the solution, and see a running application host with no resources. Done! You can go ahead with adding projects and building an awesome application. 
 
 ## Template it
@@ -202,6 +201,28 @@ This will create a new folder `My.Awesome.Project` with the aspire project struc
 If you have already created an empty git repository you can clone it and navigate to the folder, then run the template using `-o .`
 ```
 dotnet new aspire-empty-starter -n My.Awesome.Project -o . 
+```
+
+### Updating templated projects
+
+To keep the Aspire and nuget versions up to date in the template, you'll need to use the Aspire CLI and outdated CLI (if you have it):
+```
+cd templates\aspire-empty-starter
+```
+
+Then update Aspire:
+```
+aspire update
+```
+
+Update any remaining nuget packages:
+```
+dotnet outdated --upgrade
+```
+
+If you need to install the outdated CLI, run:
+```
+dotnet tool install --global dotnet-outdated-tool
 ```
 
 ## Future improvements
