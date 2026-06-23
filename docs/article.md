@@ -83,7 +83,7 @@ You'll then need to remove the version numbers from nuget packages in the Servic
 
 I also add `.editorconfig`, `Directory.Build.props`, `Directory.Packages.props` and `README.md`  to the solution items to make them easy to open later, and I might prepare the solution for gen ai tools with `CLAUDE.md` and/or `./github/copilot-instructions` files.
 
-In `AppHost.cs` change the Run statement at the end to `await builder.Build().RunAsync();` - this might show a build warning so add this to .editorconfig to suppress it:
+In `AppHost.cs` change the Run statement at the end to `await builder.Build().RunAsync();` - this might show a build warning so add this to `.editorconfig` to suppress it:
 ```
 # Suppressions
 [*.cs]
@@ -92,17 +92,19 @@ dotnet_diagnostic.CA2007.severity = none # Do not warn about missing ConfigureAw
 
 There will also be some warnings in in `ServiceDefaults/Extensions.cs` about commented code and some suggested improvements. Some of these may disappear in future versions of the Aspire templates, and you're free to make any changes you like as you develop your applications. But to start with I suppress them by adding a using statement for `System.Diagnostics.CodeAnalysiss`, wrapping a prgma around the namespace, and addind suppression attributes:
 ```
-using System.Diagnostics.CodeAnalysis;
+[**/*ServiceDefaults/**.cs] 
+dotnet_style_namespace_match_folder = false:silent # IDE0130
+dotnet_diagnostic.CA1062.severity = none # CA1062:Validate arguments of public methods
+dotnet_diagnostic.CA1307.severity = none # CA1307:Specify StringComparison for clarity
+dotnet_diagnostic.CA1724.severity = none # CA1724: Type name Extensions conflicts with namespace 'Microsoft.AspNetCore.Builder.Extensions'
+dotnet_diagnostic.S125.severity = silent # S125:Remove this commented out code
+```
 
-#pragma warning disable IDE0130
-namespace Microsoft.Extensions.Hosting;
-#pragma warning restore IDE0130
-
-[SuppressMessage("Minor Code Smell", "S125:Remove this commented out code", Justification = "Allowing comments in this class", Scope = "type", Target = "~T:Microsoft.Extensions.Hosting.Extensions")]
-[SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Allowed in this project for now", Scope = "member", Target = "~M:Microsoft.Extensions.Hosting.Extensions.MapDefaultEndpoints(Microsoft.AspNetCore.Builder.WebApplication)~Microsoft.AspNetCore.Builder.WebApplication")]
-[SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Allowed in this project for now", Scope = "member", Target = "~M:Microsoft.Extensions.Hosting.Extensions.ConfigureOpenTelemetry``1(``0)~``0")]
-[SuppressMessage("Style", "CA1724: The type name Extensions conflicts in whole or in part with the namespace name 'Microsoft.AspNetCore.Builder.Extensions'", Justification = "This is extending the target namespace and is not an error", Scope = "type", Target = "~T:Microsoft.Extensions.Hosting.Extensions")]
-public static class Extensions
+It's worth adding a couple of other suppressions for future us, including this for unit test names:
+```
+# Unit test project rules
+[**/*Tests/**.cs]
+dotnet_diagnostic.CA1707.severity = none # Allow underscores in test names
 ```
 
 At this point you should be able to build and run the solution, and see a running application host with no resources. Done! You can go ahead with adding projects and building an awesome application. 
@@ -124,6 +126,38 @@ The problem with the uris for TLD went away when I renamed the project so it had
 ** Ports ** - since I copied the port replacements from the Aspire project, I changed `launchSettings.json` to match. 
 
 
+----------------------------
+
+## Adding a Shared project, sometimes
+
+The standard Aspire templates use “magic strings” to name projects and resources. I often ignore this for smaller projects or proofs of concepts, but will for larger projects I will add a shared project with constants. The details on how this works can be found in [Removing Magic Strings from Your .NET Aspire Project](Removing Magic Strings from Your .NET Aspire Projec) - Michael S. Collier's Blog, which also mentions a video [.NET Aspire - Project Names and Constants](https://youtu.be/Jt39GzYCRgo?si=31l51xklkOjKP_Ns). 
+-	Add a new class library. I like to name it <my-project>.Shared
+-	Add the project as a project reference in the AppHost and other projects that need have the magic strings
+-	In the AppHost project csproj file, add this attribute to the shared project – IsAspireProjectResource="false"
+```
+  <ItemGroup>
+    <ProjectReference Include="..\Aspire.Default.Shared\Aspire.Default.Shared.csproj" IsAspireProjectResource="false" />
+  </ItemGroup>
+```
+
+- If you're using strict static checks, the name "Shared" will cause a build error (Visual Studio helpfully hides this in the Build output instead of in the Error List) but it can easily be ignored by adding the following to `.editorconfig` to suppress it:
+```
+[**/*Shared/**.cs]
+# CA1716: Identifiers should not match keywords. Allow in NameSpace to fix conflict with reserved language keyword 'Shared'
+dotnet_code_quality.CA1716.analyzed_symbol_kinds = NamedType, Method, Property, Event, Parameter
+```
+
+- The PropertyGroup in that file can be removed because everything will come from the directory build props.
+- For this initial project I have added Resources and Parameters classes with sample constants.
+
+I've also included this in the AppHost.csproj as a hint to how you can use a shorter name for projects:
+```
+<!-- 
+  Tip: Use AspireProjectMetadataTypeName with new projects and use the short name in AppHost.cs:
+    builder.AddProject<SampleApi>(ResourceNames.SampleApi)
+-->
+<!--<ProjectReference Include="..\Aspire.EmptyStarter.SampleApi\Aspire.EmptyStarter.SampleApi.csproj" AspireProjectMetadataTypeName="SampleApi" />-->
+```
 
 ----------------------------
 
@@ -164,6 +198,33 @@ The -o parameter is optional - if you don't use it then the project will be crea
 
 This will create a new folder `My.Awesome.Project` with the aspire project structure.
 
+If you have already created an empty git repository you can clone it and navigate to the folder, then run the template using `-o .`
+```
+dotnet new aspire-empty-starter -n My.Awesome.Project -o . 
+```
+
+### Updating templated projects
+
+To keep the Aspire and nuget versions up to date in the template, you'll need to use the Aspire CLI and outdated CLI (if you have it):
+```
+cd templates\aspire-empty-starter
+```
+
+Then update Aspire:
+```
+aspire update
+```
+
+Update any remaining nuget packages:
+```
+dotnet outdated --upgrade
+```
+
+If you need to install the outdated CLI, run:
+```
+dotnet tool install --global dotnet-outdated-tool
+```
+
 ## Future improvements
 
 The Aspire templates use “magic strings” to name projects and resources so you need to make sure you keep the names consistent across projects. If you want to avoid this, and as a best practice, 
@@ -182,14 +243,13 @@ See [Removing Magic Strings from Your .NET Aspire Project] on Michael S. Collier
  - [](https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template)
  - [Reference for template.json](https://github.com/dotnet/templating/wiki/Reference-for-template.json)
 
- ### Templating notes and links
+### Templating notes and links
 
- https://github.com/dotnet/templating/wiki/Reference-for-template.json
- Ports - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#port
- Regex - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#regex
-	
+https://github.com/dotnet/templating/wiki/Reference-for-template.json
+Ports - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#port
+Regex - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#regex
 
- https://github.com/sayedihashimi/template-sample/blob/main/src/Content/MyWebApp/.template.config/template.json
+https://github.com/sayedihashimi/template-sample/blob/main/src/Content/MyWebApp/.template.config/template.json
 
 
 --------------------
