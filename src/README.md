@@ -1,34 +1,12 @@
-<!-- Provide an overview of what your template package does and how to get started.
-Consider previewing the README before uploading (https://learn.microsoft.com/en-us/nuget/nuget-org/package-readme-on-nuget-org#preview-your-readme). -->
-
-# .NET Templates
+# Aspire Templates for .NET
 
 # How this template project works
 
 This is a starter app for an empty aspire project. It contains the minimal files and structure needed to get started with aspire development.
 
-The repo has a folder `.template.config` with a file `template.json` that describes the template and its parameters.
-
 The template has been configured to replace the user secrets guid in the AppHost project (see the `guids` section of the template.json file).
 
 There is an empty 'tests' folder in the templated project (with a `.gitkeep` file). This can be removed if no tests will be used in the solution.
-
-### Updating templated projects
-
-To update the aspire version in templates, go into the individual template folders and run aspire and package update tools. Starting in the repo root, go into the solution template folder:
-```
-cd templates\aspire-empty-starter
-```
-
-Then update Aspire:
-```
-aspire update
-```
-
-Update any remaining nuget packages 
-```
-dotnet outdated --upgrade
-```
 
 ## Installing the template
 
@@ -76,16 +54,19 @@ The -o parameter is optional - if you don't use it then the project will be crea
 
 This will create a new folder `My.Awesome.Project` with the aspire project structure.
 
-## References
+## Updating templated projects
 
- - [](https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template)
- - [Reference for template.json](https://github.com/dotnet/templating/wiki/Reference-for-template.json)
+Aspire and other packages change quicly, so you might find that the created projects need to be updraded before using. To update the aspire version in templates, go into the individual template folders and run aspire and package update tools. Starting in the repo root, go into the solution template folder:
+```
+cd templates\aspire-empty-starter
+```
 
-### Templating notes
+Then update Aspire:
+```
+aspire update
+```
 
-https://github.com/dotnet/templating/wiki/Reference-for-template.json
-Ports - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#port
-Regex - https://github.com/dotnet/templating/wiki/Available-Symbols-Generators#regex
-
-
-https://github.com/sayedihashimi/template-sample/blob/main/src/Content/MyWebApp/.template.config/template.json
+Update any remaining nuget packages 
+```
+dotnet outdated --upgrade
+```

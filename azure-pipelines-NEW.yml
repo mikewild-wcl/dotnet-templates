@@ -1,0 +1,136 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - README.md
+      - docs/*
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+stages:
+  # ─────────────────────────────────────────────
+  - stage: Build
+    displayName: 'Build and validate templates'
+    jobs:
+      - job: BuildAndTest
+        steps:
+          # GitVersion requires full history, not a shallow clone
+          - checkout: self
+            fetchDepth: 0
+
+          - task: gitversion/setup@3
+            displayName: 'Install GitVersion'
+            inputs:
+              versionSpec: '6.x'
+
+          - task: gitversion/execute@3
+            displayName: 'Calculate version'
+            inputs:
+              useConfigFile: true
+              configFilePath: 'GitVersion.yml'
+
+          # GitVersion sets Build.BuildNumber and emits variables like
+          # $(GitVersion.SemVer), $(GitVersion.NuGetVersion), $(GitVersion.MajorMinorPatch)
+
+          - task: UseDotNet@2
+            displayName: 'Install .NET SDK'
+            inputs:
+              packageType: 'sdk'
+              useGlobalJson: true
+
+          # 1. Build each template's own solution in place
+          - pwsh: |
+              $failed = @()
+              Get-ChildItem -Path templates -Recurse -Filter *.slnx | ForEach-Object {
+                Write-Host "##[section]Building $($_.FullName)"
+                dotnet build $_.FullName -c $(buildConfiguration)
+                if ($LASTEXITCODE -ne 0) { $failed += $_.FullName }
+              }
+              if ($failed.Count -gt 0) {
+                Write-Host "##vso[task.logissue type=error]Failed builds: $($failed -join ', ')"
+                exit 1
+              }
+            displayName: 'Build template sources'
+
+          # 2. Pack the template package with the GitVersion-calculated version
+          - pwsh: |
+              dotnet pack MyTemplates.csproj -c $(buildConfiguration) `
+                -o $(Build.ArtifactStagingDirectory) `
+                /p:PackageVersion=$(GitVersion.SemVer)
+            displayName: 'Pack template package ($(GitVersion.SemVer))'
+
+          # 3. Install the pack, instantiate each template, build the output
+          - pwsh: |
+              dotnet new install $(Build.ArtifactStagingDirectory)/*.nupkg
+
+              $shortNames = Get-ChildItem -Path templates -Recurse -Filter template.json |
+                Where-Object { $_.Directory.Name -eq '.template.config' } |
+                ForEach-Object { (Get-Content $_.FullName -Raw | ConvertFrom-Json).shortName }
+
+              $failed = @()
+              foreach ($name in $shortNames) {
+                Write-Host "##[section]Instantiating template: $name"
+                $out = Join-Path $(Agent.TempDirectory) "smoke-$name"
+                dotnet new $name -o $out -n SmokeTest
+                if ($LASTEXITCODE -ne 0) { $failed += "$name (instantiation)"; continue }
+                dotnet build $out -c $(buildConfiguration)
+                if ($LASTEXITCODE -ne 0) { $failed += "$name (build)" }
+              }
+              if ($failed.Count -gt 0) {
+                Write-Host "##vso[task.logissue type=error]Failed templates: $($failed -join ', ')"
+                exit 1
+              }
+            displayName: 'Instantiate and build templates'
+
+          # 4. Publish the nupkg as a pipeline artifact
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish template package'
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              artifact: 'template-package'
+
+  # ─────────────────────────────────────────────
+  - stage: PublishToNuGet
+    displayName: 'Publish to NuGet'
+    dependsOn: Build
+    # Only from main, only for CI runs (never PR validation builds)
+    condition: >
+      and(
+        succeeded(),
+        eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+        ne(variables['Build.Reason'], 'PullRequest')
+      )
+    jobs:
+      - deployment: PushPackage
+        displayName: 'Push package to NuGet.org'
+        environment: 'nuget-production'   # approval check lives on this environment
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                # Deployment jobs don't check out source by default; the
+                # 'template-package' artifact is downloaded automatically
+                # to $(Pipeline.Workspace)/template-package
+                - task: UseDotNet@2
+                  displayName: 'Install .NET SDK'
+                  inputs:
+                    packageType: 'sdk'
+                    version: '10.x'   # no global.json here without checkout
+
+                - pwsh: |
+                    dotnet nuget push "$(Pipeline.Workspace)/template-package/*.nupkg" `
+                      --api-key $(NuGetApiKey) `
+                      --source https://api.nuget.org/v3/index.json `
+                      --skip-duplicate
+                  displayName: 'Push to NuGet.org'

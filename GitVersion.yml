@@ -1,0 +1,12 @@
+# GitVersion 6.x
+# GitHubFlow: main is always releasable, short-lived branches merge back via PR.
+# Versions are anchored to the latest tag (e.g. v1.2.0); each commit on main
+# bumps patch. Use '+semver: minor' / '+semver: major' in a commit message,
+# or push a new tag, to bump higher components.
+workflow: GitHubFlow/v1
+
+branches:
+  main:
+    label: ''            # main builds get clean versions: 1.2.3
+  pull-request:
+    label: pr            # PR builds: 1.2.4-pr0042.1
