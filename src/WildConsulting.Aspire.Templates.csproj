@@ -20,7 +20,10 @@
     <ContentTargetFolders>content</ContentTargetFolders>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
     <NoDefaultExcludes>true</NoDefaultExcludes>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README-NUGET.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/mikewild-wcl/fotnet-templates</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mikewild-wcl/dotnet-templates</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -37,7 +40,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="" />
+    <!--<None Include="README.md" Pack="true" PackagePath="" />-->
+    <None Update="README-NUGET.md" >
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+
+    <None Include="images\icon.png" >
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

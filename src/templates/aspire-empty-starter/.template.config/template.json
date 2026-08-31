@@ -2,7 +2,7 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "Mike Wild",
   "classifications": [
-    ".NET Aspire",
+    "Aspire",
     "Empty"
   ],
   "identity": "Aspire.EmptyStarter.Template",
@@ -24,7 +24,14 @@
         "**/*.filelist",
         "**/*.user",
         "**/*.lock.json",
-        "**/.vs/**"
+        "**/.vs/**",
+        "src/Aspire.EmptyStarter.Shared/ApplicationConstants.cs"
+      ]
+    },
+    {
+      "condition": "(hasApplicationName)",
+      "include": [
+        "src/Aspire.EmptyStarter.Shared/ApplicationConstants.cs"
       ]
     }
   ],
@@ -32,6 +39,17 @@
     "708424d8-3d21-4e22-aa9b-00c0abf5fb4b" // AppHost UserSecretsId
   ],
   "symbols": {
+    "application-name": {
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "",
+      "description": "Optional display name to use for the generated AppHost.",
+      "replaces": "APPLICATION_NAME_PLACEHOLDER"
+    },
+    "hasApplicationName": {
+      "type": "computed",
+      "value": "(application-name != \"\")"
+    },
     "appHostHttpPort": {
       "type": "parameter",
       "datatype": "integer",
@@ -208,5 +226,23 @@
       },
       "replaces": "22000"
     }
-  }
+  },
+  "primaryOutputs": [
+    {
+      "path": "./Aspire.EmptyStarter.Template.sln"
+    }
+  ],
+  "postActions": [
+    {
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "description": "Restore NuGet packages required by this solution.",
+      "condition": "(!skipRestore)",
+      "continueOnError": true,
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ]
+    }
+  ]
 }

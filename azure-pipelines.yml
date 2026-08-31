@@ -29,10 +29,9 @@ variables:
   - name: buildConfiguration
     value: 'Release'
   - name: templateProjectPath
-    value: 'src/MikeWildAspire.Templates.csproj'
+    value: 'src/WildConsulting.Aspire.Templates.csproj'
 
 stages:
-  # ─────────────────────────────────────────────
   - stage: Build
     displayName: 'Build and validate templates'
     jobs:
@@ -122,7 +121,6 @@ stages:
               targetPath: '$(Build.ArtifactStagingDirectory)'
               artifact: 'template-package'
 
-  # ─────────────────────────────────────────────
   - stage: PublishToNuGet
     displayName: 'Publish to NuGet'
     dependsOn: Build
@@ -143,6 +141,7 @@ stages:
               steps:
                 # Deployment jobs don't check out source by default; we need it for global.json
                 - checkout: self
+                  persistCredentials: true
 
                 - task: UseDotNet@2
                   displayName: 'Install .NET SDK'
@@ -158,3 +157,42 @@ stages:
                       --source https://api.nuget.org/v3/index.json `
                       --skip-duplicate
                   displayName: 'Push to NuGet.org'
+
+                - pwsh: |
+                    $packages = Get-ChildItem "$(Pipeline.Workspace)/template-package/*.nupkg" -File
+                    if ($packages.Count -ne 1) {
+                      Write-Host "##vso[task.logissue type=error]Expected exactly one .nupkg for tagging, found $($packages.Count)."
+                      exit 1
+                    }
+
+                    $package = $packages[0]
+
+                    if ($package.Name -notmatch '\.(?<version>\d+\.\d+\.\d+(?:-[0-9A-Za-z\.-]+)?)\.nupkg$') {
+                      Write-Host "##vso[task.logissue type=error]Could not parse version from package name: $($package.Name)"
+                      exit 1
+                    }
+
+                    $tag = "v$($Matches.version)"
+                    $remoteTag = git ls-remote --tags origin "refs/tags/$tag"
+                    if ($LASTEXITCODE -ne 0) {
+                      Write-Host "##vso[task.logissue type=error]Failed to check remote tags."
+                      exit 1
+                    }
+
+                    if ($remoteTag) {
+                      Write-Host "Tag $tag already exists on origin; skipping tag creation."
+                      exit 0
+                    }
+
+                    git tag $tag
+                    if ($LASTEXITCODE -ne 0) {
+                      Write-Host "##vso[task.logissue type=error]Failed to create tag $tag."
+                      exit 1
+                    }
+
+                    git push origin "refs/tags/$tag"
+                    if ($LASTEXITCODE -ne 0) {
+                      Write-Host "##vso[task.logissue type=error]Failed to push tag $tag."
+                      exit 1
+                    }
+                  displayName: 'Tag release commit'
