@@ -4,6 +4,7 @@
 # bumps patch. Use '+semver: minor' / '+semver: major' in a commit message,
 # or push a new tag, to bump higher components.
 workflow: GitHubFlow/v1
+next-version: 1.0.0     # starting point when no tags exist yet
 
 branches:
   main:
