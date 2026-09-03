@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AspireCliBundle>true</AspireCliBundle>
+    <AspireUseCliBundle>true</AspireUseCliBundle>
     <UserSecretsId>708424d8-3d21-4e22-aa9b-00c0abf5fb4b</UserSecretsId>
   </PropertyGroup>
 
