@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to agents when working with code in this repository.
 
 ## Project Overview
 
@@ -57,14 +57,16 @@ The ServiceDefaults project provides:
 
 Minimum versions:
 - - Target framework: `net10.0`
-- Aspire SDK: `13.1.0`
-- OpenTelemetry packages: `1.14.0`
-- Microsoft Aspire extensions: `10.1.0`
+- Aspire SDK: `13.5.0`
+- OpenTelemetry packages: `1.18.0`
+- Microsoft Aspire extensions: `10.10.0`
 
 ## Code Quality
 
 - Nullable reference types enabled
 - Implicit usings enabled
 - Latest analysis level with "All" mode
+- File-scoped namespaces
 - SonarAnalyzer.CSharp enforces additional rules
 - EditorConfig at root defines coding standards
+- Central package management - don't specify package versions in .csproj files (use Directory.Packages.props)
