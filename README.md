@@ -53,10 +53,15 @@ dotnet new list aspire
 ```
 
 To uninstall the template, run 
-If the template already exists, you need to add --force to reinstall:
 ```
 dotnet new uninstall aspire-empty-starter
 ```
+
+If the template already exists, you need to add --force to reinstall:
+```
+dotnet new uninstall aspire-empty-starter --force
+```
+
 This might need the full path to the folder if you aren't inside it.
 ```
 dotnet new uninstall C:\dev\dotnet-templates\templates\aspire-empty-starter

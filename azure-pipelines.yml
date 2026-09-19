@@ -7,9 +7,6 @@ trigger:
       - README.md
       - 'docs/**/*'
       - AGENTS.md
-      - CLAUDE.md
-      - '**/CLAUDE.md'
-      - '.github/copilot-instructions.md'
       - '.github/instructions/**/*'
       - '.github/chatmodes/**/*'
       - '.github/prompts/**/*'

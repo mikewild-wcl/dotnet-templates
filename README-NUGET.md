@@ -10,17 +10,7 @@ This package contains dotnet templates including
 
 Install the template by running this command in the template root - `cd C:\dev\dotnet-templates\templates\aspire-empty-starter` (the path on your machine might differ, and remember to change the template name if you're using a different template:
 ```
-dotnet new install ./
-```
-
-You can also do this using the full path:
-```
-dotnet new install C:\dev\dotnet-templates\templates\aspire-empty-starter
-```
-
-If the template already exists, you need to add --force to reinstall:
-```
-dotnet new install ./ --force
+dotnet new install WildConsulting.Aspire.Templates
 ```
 
 You can list available templates with 
@@ -29,13 +19,13 @@ dotnet new list aspire
 ```
 
 To uninstall the template, run 
+```
+dotnet new uninstall WildConsulting.Aspire.Templates
+```
+
 If the template already exists, you need to add --force to reinstall:
 ```
-dotnet new uninstall aspire-empty-starter
-```
-This might need the full path to the folder if you aren't inside it.
-```
-dotnet new uninstall C:\dev\dotnet-templates\templates\aspire-empty-starter
+dotnet new uninstall WildConsulting.Aspire.Templates --force
 ```
 
 ## Using the template
